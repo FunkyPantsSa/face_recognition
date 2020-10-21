@@ -14,22 +14,35 @@ eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_eye.xml')
 while True:
 
     ret, frame = cap.read()   #见下
+
     font = cv2.FONT_HERSHEY_COMPLEX
-    cv2.putText(frame, "Face Register", (20, 40), font, 1, (0, 0, 0), 1, cv2.LINE_AA)
+    cv2.putText(frame, "Face Register", (20, 40), font, 1, (0, 0, 255), 1, cv2.LINE_AA)
     # cv2.putText(frame, "N: New face folder", (20, 350), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
-    cv2.putText(frame, "S: Save face", (20, 400), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
-    cv2.putText(frame, "Q: Quit", (20, 450), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+    cv2.putText(frame, "S: Save face", (20, 400), font, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+    cv2.putText(frame, "Q: Quit", (20, 450), font, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+
     from drawline import drawline
     drawline(frame)
+
+
     cv2.imshow("Video", frame)
 
     if cv2.waitKey(10) == ord("q"):
         break
         # 随时准备按q退出
 
-    if cv2.waitKey(10) == ord('s'):
-        # 存储29张图片
-        num=0
+    if cv2.waitKey(100)&0xFF == ord('s'):
+
+        import shutil
+        shutil.rmtree('picture')
+        os.mkdir('picture')
+
+        from mkdir import mkdir
+        mkpath = "picture"
+        mkdir(mkpath)
+
+        # 存储29张图片,重写调用函数
+        num = 0
         for i in range(1, 31):
             num = i
             cv2.imwrite("picture/camera"+str(num)+'.jpg', frame)
