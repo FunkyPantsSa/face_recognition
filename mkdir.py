@@ -13,8 +13,9 @@ def mkdir(path):
         os.makedirs(path)
         return True
     else:
-        return 0
+        return False
 
+#调用方式
 # from mkdir import mkdir
 # mkpath = "picture"
 # mkdir(mkpath)
