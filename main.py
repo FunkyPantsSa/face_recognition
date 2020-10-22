@@ -1,20 +1,20 @@
 def camera():
+    global name
     import os
     import shutil
     import cv2
     import dlib
     import img as img
     import numpy
+    name = input("name")
+    # 打开摄像头
+    cap = cv2.VideoCapture(0)  # 参数0表示调用笔记本内置摄像头
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-
-    #打开摄像头
-    cap = cv2.VideoCapture(0)   #参数0表示调用笔记本内置摄像头
-    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
-
-    eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_eye.xml')
+    eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
     while True:
 
-        ret, frame = cap.read()   #见下
+        ret, frame = cap.read()  # 见下
 
         font = cv2.FONT_HERSHEY_COMPLEX
         cv2.putText(frame, "Face Register", (20, 40), font, 1, (0, 0, 255), 1, cv2.LINE_AA)
@@ -25,28 +25,21 @@ def camera():
         from drawline import drawline
         drawline(frame)
 
-
         cv2.imshow("Video", frame)
 
         if cv2.waitKey(10) == ord("q"):
             break
             # 随时准备按q退出
 
-        if cv2.waitKey(100)&0xFF == ord('s'):
-
+        if cv2.waitKey(100) & 0xFF == ord('s'):
             import shutil
-            shutil.rmtree('picture')
-            os.mkdir('picture')
-
+            # shutil.rmtree(name)
             from mkdir import mkdir
-            mkpath = "picture"
-            mkdir(mkpath)
-
+            mkdir(name)
+            from save_picture import save_picture
+            save_picture(frame, name)
             # 存储29张图片,重写调用函数
-            num = 0
-            for i in range(1, 31):
-                num = i
-                cv2.imwrite("picture/camera"+str(num)+'.jpg', frame)
+
     """
     函数名：cap.read()
     功  能：返回两个值
@@ -62,5 +55,8 @@ def camera():
            R2：图像的三维矩阵qq
     """
 
-    cap.release() #释放摄像头
-    cv2.destroyAllWindows( ) #删除窗口
+    cap.release()  # 释放摄像头
+    cv2.destroyAllWindows()  # 删除窗口
+
+
+camera()
