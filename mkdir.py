@@ -1,16 +1,14 @@
 
 #创建文件夹
+import os
+
+
 def mkdir(path):
-    # 引入模块
     import os
-    # 去除首位空格
-    path = path.strip()
-    # 去除尾部 \ 符号
-    path = path.rstrip("\\")
 
     isExists = os.path.exists(path)
     if not isExists:
-        os.makedirs(path)
+        os.mkdir(path)
         return True
     else:
         return False
