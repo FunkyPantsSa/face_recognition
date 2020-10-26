@@ -18,11 +18,17 @@ def drawline (path):  #画出人脸和人眼的线
             # 画出人眼框，绿色，画笔宽度为1
             cv2.rectangle(face_area, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 1)
 
+def world (path):   #写字
+    import cv2
+    font = cv2.FONT_HERSHEY_COMPLEX
+    cv2.putText(path, "Face Register", (20, 40), font, 1, (0, 0, 255), 1, cv2.LINE_AA)
+    # cv2.putText(frame, "N: New face folder", (20, 350), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+    cv2.putText(path, "S: Save face", (20, 400), font, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+    cv2.putText(path, "Q: Quit", (20, 450), font, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
 
 
 
-
-def fps (path): #显示视频帧率
+def fps (path): #显示视频帧率 ，，已经弃用
     import cv2
     # ——————————————————————————————
     # ————————添加自己的视频播放路径———————————

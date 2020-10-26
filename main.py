@@ -1,3 +1,6 @@
+import threading
+
+
 def camera():
     global name
     import os
@@ -7,22 +10,28 @@ def camera():
     import img as img
     import numpy
     name = input("name")
-    # 打开摄像头
     cap = cv2.VideoCapture(0)  # 参数0表示调用笔记本内置摄像头
-    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
     while True:
 
         ret, frame = cap.read()  # 见下
+        ret2, frame2=cap.read()  #一份给划线，一份给后台处理
+        if cv2.waitKey(100) & 0xFF == ord('s'):
+            import shutil
+            # shutil.rmtree(name)
+            from mkdir import mkdir
+            mkdir(name)
+            from save_picture import save_picture
+            save_picture(frame2, name)
+            # 存储29张图片,重写调用函数
 
-        font = cv2.FONT_HERSHEY_COMPLEX
-        cv2.putText(frame, "Face Register", (20, 40), font, 1, (0, 0, 255), 1, cv2.LINE_AA)
-        # cv2.putText(frame, "N: New face folder", (20, 350), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
-        cv2.putText(frame, "S: Save face", (20, 400), font, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
-        cv2.putText(frame, "Q: Quit", (20, 450), font, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+        from drawline import world    #在页面上显示文字
+        world(frame)
 
-        from drawline import drawline
+
+        from drawline import drawline  #在页面框取人脸和眼睛
         drawline(frame)
 
         cv2.imshow("Video", frame)
@@ -31,14 +40,7 @@ def camera():
             break
             # 随时准备按q退出
 
-        if cv2.waitKey(100) & 0xFF == ord('s'):
-            import shutil
-            # shutil.rmtree(name)
-            from mkdir import mkdir
-            mkdir(name)
-            from save_picture import save_picture
-            save_picture(frame, name)
-            # 存储29张图片,重写调用函数
+
 
     """
     函数名：cap.read()
@@ -57,6 +59,6 @@ def camera():
 
     cap.release()  # 释放摄像头
     cv2.destroyAllWindows()  # 删除窗口
-
-
-camera()
+if __name__ == '__main__':
+    camera()
+# t2 = threading.Thread(target=camera())
