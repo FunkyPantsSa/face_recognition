@@ -1,47 +1,41 @@
-import threading
-import time
 import wx
+import os
+from importlib import reload
+import webbrowser
+import face_img_register
+import face_recognize_punchcard
+import sys
+
+main = "icon/main.png"
+file_path = os.getcwd() + r'\data\logcat.csv'
 
 
-def run(n):
-    print("task", n)
-    time.sleep(1)
-    print('2s')
-    time.sleep(1)
-    print('1s')
-    time.sleep(1)
-    print('0s')
-    time.sleep(1)
+class Mainui (wx.Frame):
+    def __init__(self, superion ):
+        wx.Frame.__init__(self, parent=superion, title="考勤系统", size=(800, 590))
+        self.SetBackgroundColour('white')
+        self.Center()
+
+        self.frame = ''
+        self.RegisterButton = wx.Button(parent=self, pos=(50, 120), size=(80, 50), label='人脸录入')
+
+        self.PunchcardButton = wx.Button(parent=self, pos=(50, 220), size=(80, 50), label='刷脸签到')
+
+        self.LogcatButton = wx.Button(parent=self, pos=(50, 320), size=(80, 50), label='日志查看')
+
+        self.InstructButton = wx.Button(parent=self, pos=(210, 460), size=(80, 50), label='操作说明')
 
 
-# if __name__ == '__main__':
-#     t1 = threading.Thread(target=run, args=("t1",))
-#     t2 = threading.Thread(target=run, args=("t2",))
-#     t1.start()
-#     t2.start()
-# -*- coding:utf-8 -*-
 
 
-class Frame(wx.Frame):
-    def __init__(self):
-        wx.Frame.__init__(self, None, title='', size=(400, 300), name='frame', style=541072960)
-        self.启动窗口 = wx.Panel(self)
-        self.Centre()
-        self.按钮1 = wx.Button(self.启动窗口, size=(80, 32), pos=(269, 40), label='按钮', name='button')
-        self.按钮1.Bind(wx.EVT_BUTTON, self.按钮1_按钮被单击)
 
-    def 按钮1_按钮被单击(self, event):
-        from main import  camera
-        camera()
+        self.Bind(wx.EVT_BUTTON, self.OnRegisterButtonClicked, self.RegisterButton)
+        self.Bind(wx.EVT_BUTTON, self.OnPunchCardButtonClicked, self.PunchcardButton)
+        self.Bind(wx.EVT_BUTTON, self.OnLogcatButtonClicked, self.LogcatButton)
+        self.Bind(wx.EVT_BUTTON, self.OnInstructButtonClicked, self.InstructButton)
 
 
-class myApp(wx.App):
-    def OnInit(self):
-        self.frame = Frame()
-        self.frame.Show(True)
-        return True
-
-
-if __name__ == '__main__':
-    app = myApp()
-    app.MainLoop()
+        # 封面图片
+        self.image_cover = wx.Image(main, wx.BITMAP_TYPE_ANY).Scale(520, 360)
+        # 显示图片
+        self.bmp = wx.StaticBitmap(parent=self, pos=(180, 80), bitmap=wx.Bitmap(self.image_cover))
