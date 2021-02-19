@@ -1,6 +1,6 @@
 #!Anaconda/anaconda/python
 #coding: utf-8
-
+#shell run pythonw filename
 """
 从视屏中识别人脸，并实时标出面部特征点
 """
@@ -155,6 +155,8 @@ class face_emotion(wx.Frame):
                        else:
                            cv2.putText(im_rd, "nature", (d.left(), d.bottom() + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                                        (0, 0, 255), 2, 4)
+
+
 
                # 标出人脸数
                cv2.putText(im_rd, "Faces: "+str(len(faces)), (20,50), font, 1, (0, 0, 255), 1, cv2.LINE_AA)
